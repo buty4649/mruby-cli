@@ -1,3 +1,4 @@
 mruby/
 releases/
 packages/
+build_config.rb.lock

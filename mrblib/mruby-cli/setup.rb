@@ -157,12 +157,6 @@ end
 MRuby::CrossBuild.new('x86_64-apple-darwin14') do |conf|
   toolchain :clang
 
-  [conf.cc, conf.linker].each do |cc|
-    cc.command = 'x86_64-apple-darwin14-clang'
-  end
-  conf.cxx.command      = 'x86_64-apple-darwin14-clang++'
-  conf.archiver.command = 'x86_64-apple-darwin14-ar'
-
   conf.build_target     = 'x86_64-pc-linux-gnu'
   conf.host_target      = 'x86_64-apple-darwin14'
 
@@ -172,59 +166,45 @@ end
 MRuby::CrossBuild.new('i386-apple-darwin14') do |conf|
   toolchain :clang
 
-  [conf.cc, conf.linker].each do |cc|
-    cc.command = 'i386-apple-darwin14-clang'
-  end
-  conf.cxx.command      = 'i386-apple-darwin14-clang++'
-  conf.archiver.command = 'i386-apple-darwin14-ar'
-
   conf.build_target     = 'i386-pc-linux-gnu'
   conf.host_target      = 'i386-apple-darwin14'
 
   gem_config(conf)
 end
 
-MRuby::CrossBuild.new('x86_64-w64-mingw32') do |conf|
-  toolchain :gcc
-
-  [conf.cc, conf.linker].each do |cc|
-    cc.command = 'x86_64-w64-mingw32-gcc'
-  end
-  conf.cxx.command      = 'x86_64-w64-mingw32-g++'
-  conf.archiver.command = 'x86_64-w64-mingw32-gcc-ar'
-
-  conf.exts do |exts|
-    exts.object = '.obj'
-    exts.executable = '.exe'
-    exts.library = '.lib'
-  end
-
-  conf.build_target     = 'x86_64-pc-linux-gnu'
-  conf.host_target      = 'x86_64-w64-mingw32'
-
-  gem_config(conf)
-end
-
-MRuby::CrossBuild.new('i686-w64-mingw32') do |conf|
-  toolchain :gcc
-
-  [conf.cc, conf.linker].each do |cc|
-    cc.command = 'i686-w64-mingw32-gcc'
-  end
-  conf.cxx.command      = 'i686-w64-mingw32-g++'
-  conf.archiver.command = 'i686-w64-mingw32-gcc-ar'
-
-  conf.exts do |exts|
-    exts.object = '.obj'
-    exts.executable = '.exe'
-    exts.library = '.lib'
-  end
-
-  conf.build_target     = 'i686-pc-linux-gnu'
-  conf.host_target      = 'i686-w64-mingw32'
-
-  gem_config(conf)
-end
+# Cross Compile on Ubuntu gives me a -lws2_32 not found error.
+# mruby-io and mruby-socket need -lws2_32.
+# Comment out until a workaround is found.
+#
+#MRuby::CrossBuild.new('x86_64-w64-mingw32') do |conf|
+#  toolchain :gcc
+#
+#  conf.exts do |exts|
+#    exts.object = '.obj'
+#    exts.executable = '.exe'
+#    exts.library = '.lib'
+#  end
+#
+#  conf.build_target     = 'x86_64-pc-linux-gnu'
+#  conf.host_target      = 'x86_64-w64-mingw32'
+#
+#  gem_config(conf)
+#end
+#
+#MRuby::CrossBuild.new('i686-w64-mingw32') do |conf|
+#  toolchain :gcc
+#
+#  conf.exts do |exts|
+#    exts.object = '.obj'
+#    exts.executable = '.exe'
+#    exts.library = '.lib'
+#  end
+#
+#  conf.build_target     = 'i686-pc-linux-gnu'
+#  conf.host_target      = 'i686-w64-mingw32'
+#
+#  gem_config(conf)
+#end
 BUILD_CONFIG_RB
     end
 
@@ -324,7 +304,7 @@ DOCKER_COMPOSE_YML
       <<RAKEFILE
 require 'fileutils'
 
-MRUBY_VERSION="1.2.0"
+MRUBY_VERSION="3.1.0"
 
 file :mruby do
   #sh "git clone --depth=1 https://github.com/mruby/mruby"

@@ -1,6 +1,6 @@
 require 'fileutils'
 
-MRUBY_VERSION="1.2.0"
+MRUBY_VERSION="3.1.0"
 
 file :mruby do
   #sh "git clone --depth=1 https://github.com/mruby/mruby"
@@ -328,4 +328,3 @@ end
 
 desc "create all packages"
 task :package => ["package:deb", "package:rpm", "package:msi", "package:dmg"]
-
