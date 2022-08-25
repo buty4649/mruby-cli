@@ -25,12 +25,12 @@ $ docker-compose run compile
 
 You'll be able to find the binaries in the following directories:
 
-* Linux (64-bit): `mruby/build/x86_64-pc-linux-gnu/bin`
-* Linux (32-bit): `mruby/build/i686-pc-linux-gnu/bin`
-* OS X (64-bit): `mruby/build/x86_64-apple-darwin14/bin/`
-* OS X (32-bit): `mruby/build/i386-apple-darwin14/bin`
-* Windows (64-bit): `mruby/build/x86_64-w64-mingw32/bin/`
-* Windows (32-bit): `mruby/build/i686-w64-mingw32/bin`
+* Linux (64-bit): `build/x86_64-pc-linux-gnu/bin`
+* Linux (32-bit): `build/i686-pc-linux-gnu/bin`
+* OS X (64-bit): `build/x86_64-apple-darwin14/bin/`
+* OS X (32-bit): `build/i386-apple-darwin14/bin`
+* Windows (64-bit): `build/x86_64-w64-mingw32/bin/`
+* Windows (32-bit): `build/i686-w64-mingw32/bin`
 
 You should be able to run the respective binary that's native on your platform. There's a `shell` service that can be used as well. In the example below, `mruby-cli --setup hello_world` was run.
 

@@ -1,11 +1,11 @@
 require 'fileutils'
 
-MRUBY_VERSION="3.1.0"
+MRUBY_VERSION=ENV["MRUBY_VERSION"] || "3.1.0"
 
 file :mruby do
   #sh "git clone --depth=1 https://github.com/mruby/mruby"
   sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | tar zxf -"
-  FileUtils.mv("mruby-#{MRUBY_VERSION}", "mruby")
+  FileUtils.mv("mruby-#{MRUBY_VERSION}", ENV['mruby_root'] || "mruby")
 end
 
 APP_NAME=ENV["APP_NAME"] || "mruby-cli"
@@ -129,23 +129,9 @@ namespace :local do
   end
 end
 
-def is_in_a_docker_container?
-  `grep -q docker /proc/self/cgroup`
-  $?.success?
-end
-
-Rake.application.tasks.each do |task|
-  next if ENV["MRUBY_CLI_LOCAL"]
-  unless task.name.start_with?("local:")
-    # Inspired by rake-hooks
-    # https://github.com/guillermo/rake-hooks
-    old_task = Rake.application.instance_variable_get('@tasks').delete(task.name)
-    desc old_task.full_comment
-    task old_task.name => old_task.prerequisites do
-      abort("Not running in docker, you should type \"docker-compose run <task>\".") \
-        unless is_in_a_docker_container?
-      old_task.invoke
-    end
+namespace :docker do
+  task :build_image do
+    system("docker build -t buty4649/mruby-cli:#{MRUBY_VERSION}-focal -f Dockerfile --build-arg MRUBY_VERSION=#{MRUBY_VERSION} .")
   end
 end
 

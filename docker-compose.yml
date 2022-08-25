@@ -1,7 +1,8 @@
 compile: &defaults
-  build: .
+  image: buty4649/mruby-cli:3.1.0-focal
   volumes:
     - .:/home/mruby/code:rw
+    - ./build:/opt/mruby/build
   command: rake compile
 test:
   <<: *defaults

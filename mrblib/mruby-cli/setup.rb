@@ -129,17 +129,11 @@ def gem_config(conf)
 end
 
 MRuby::Build.new do |conf|
-  toolchain :clang
+  conf.toolchain
 
   conf.enable_bintest
   conf.enable_debug
   conf.enable_test
-
-  gem_config(conf)
-end
-
-MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
-  toolchain :gcc
 
   gem_config(conf)
 end
@@ -275,9 +269,10 @@ DOCKERFILE
     def docker_compose_yml
       <<DOCKER_COMPOSE_YML
 compile: &defaults
-  build: .
+  image: buty4649/mruby-cli:3.1.0-focal
   volumes:
     - .:/home/mruby/code:rw
+    - ./build:/opt/mruby/build
   command: rake compile
 test:
   <<: *defaults
@@ -430,26 +425,6 @@ namespace :local do
   desc "show version"
   task :version do
     puts "\#{APP_NAME} \#{APP_VERSION}"
-  end
-end
-
-def is_in_a_docker_container?
-  `grep -q docker /proc/self/cgroup`
-  $?.success?
-end
-
-Rake.application.tasks.each do |task|
-  next if ENV["MRUBY_CLI_LOCAL"]
-  unless task.name.start_with?("local:")
-    # Inspired by rake-hooks
-    # https://github.com/guillermo/rake-hooks
-    old_task = Rake.application.instance_variable_get('@tasks').delete(task.name)
-    desc old_task.full_comment
-    task old_task.name => old_task.prerequisites do
-      abort("Not running in docker, you should type \\"docker-compose run <task>\\".") \
-        unless is_in_a_docker_container?
-      old_task.invoke
-    end
   end
 end
 RAKEFILE

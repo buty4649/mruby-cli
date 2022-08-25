@@ -1,0 +1,37 @@
+---
+mruby:
+  version: 3.1.0
+  release_no: 30100
+builds:
+  host:
+    https://github.com/mttech/mruby-getopts:
+      url: https://github.com/mttech/mruby-getopts
+      branch: HEAD
+      commit: 32878292c1162a911b39e1e0810a28ab2cb83f6a
+      version: 0.0.0
+    https://github.com/iij/mruby-dir.git:
+      url: https://github.com/iij/mruby-dir.git
+      branch: HEAD
+      commit: 89dceefa1250fb1ae868d4cb52498e9e24293cd1
+      version: 0.0.0
+    https://github.com/iij/mruby-mtest.git:
+      url: https://github.com/iij/mruby-mtest.git
+      branch: HEAD
+      commit: 34a477d249b0d21671058be33aa75d04c3e981ba
+      version: 0.0.0
+  x86_64-pc-linux-gnu:
+    https://github.com/mttech/mruby-getopts:
+      url: https://github.com/mttech/mruby-getopts
+      branch: master
+      commit: 32878292c1162a911b39e1e0810a28ab2cb83f6a
+      version: 0.0.0
+    https://github.com/iij/mruby-dir.git:
+      url: https://github.com/iij/mruby-dir.git
+      branch: master
+      commit: 89dceefa1250fb1ae868d4cb52498e9e24293cd1
+      version: 0.0.0
+    https://github.com/iij/mruby-mtest.git:
+      url: https://github.com/iij/mruby-mtest.git
+      branch: master
+      commit: 34a477d249b0d21671058be33aa75d04c3e981ba
+      version: 0.0.0
