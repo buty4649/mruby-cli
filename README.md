@@ -23,6 +23,7 @@ This will generate a folder `<app name>` containing a basic skeleton for getting
 $ docker-compose run compile
 ```
 
+**2022/08/25: Cross-compile is currently not supported due to errors.**
 You'll be able to find the binaries in the following directories:
 
 * Linux (64-bit): `build/x86_64-pc-linux-gnu/bin`
